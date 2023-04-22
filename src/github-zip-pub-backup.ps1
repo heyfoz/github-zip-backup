@@ -1,6 +1,7 @@
 #!/usr/bin/env pwsh
 # File header specifies pwsh interpreter location for Linux and MacOS
 
+# This script saves zip file copies of public GitHub repos based on username parameters
 # GitHub API Documentation: 
 # https://docs.github.com/en/rest/repos/contents?apiVersion=2022-11-28#download-a-repository-archive-zip
 
