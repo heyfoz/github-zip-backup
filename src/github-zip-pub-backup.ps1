@@ -28,7 +28,7 @@ foreach ($repo in $repositories) {
         Invoke-WebRequest -Uri $zipUri -OutFile $zipFilePath -ErrorAction Stop
 	  # Track number of downloaded repos
 	  $downloadedRepos++
-    } catch {
+    } catch { # Catch any 404 errors (resource not found)
         if ($_.Exception.Message -match '404') {
             $zipUri = $repo.archive_url -replace '{archive_format}{/ref}', 'zipball/main'
             Invoke-WebRequest -Uri $zipUri -OutFile $zipFilePath -ErrorAction Stop
