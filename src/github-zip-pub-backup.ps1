@@ -20,7 +20,7 @@ $downloadedRepos = 0
 foreach ($repo in $repositories) {
     $name = $repo.name
     $zipUri = $repo.archive_url -replace '{archive_format}{/ref}', 'zipball/master'
-    $zipFilePath = "C:\Users\forre\OneDrive\Dev\$($name).zip"
+    $zipFilePath = "C:\path\to\directory\$($name).zip"
     Write-Host "Downloading $name"
 
     # Check for/download master branch, if not found, do same for main branch
