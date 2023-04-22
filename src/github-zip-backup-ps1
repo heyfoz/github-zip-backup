@@ -9,9 +9,11 @@
 # Example using access token to copy both public and private repos
 $token = "insertGitHubAccessToken"
 
-# Set headers with token to access private repos
+# Set HTTP request headers 
 $headers = @{
+    # Set Authorization header with personal access token
     Authorization = "Bearer $token"
+    # Set Accept header to return media in GitHub API v3 in JSON format
     Accept = "application/vnd.github.v3+json"
 }
 
@@ -26,7 +28,7 @@ $downloadCount = 0
 foreach ($repo in $repositories) {
     $name = $repo.name
     $zipUri = $repo.archive_url -replace '{archive_format}', 'zipball' -replace '{/ref}', "/$branchName"
-    $zipFilePath = "C:\Users\forre\OneDrive\Dev\$($name).zip"
+    $zipFilePath = "C:\path\to\directory\$($name).zip"
     Write-Host "Downloading $($name)"
 
     # Download zip file, handling 404 errors
