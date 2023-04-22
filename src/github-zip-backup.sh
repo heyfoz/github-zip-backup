@@ -1,4 +1,5 @@
 #!/bin/bash
+# File header specifies location of bash shell interpreter
 
 # This shell script (bash) saves zip file copies of private and public GitHub repos based on username, personal access token parameters
 
