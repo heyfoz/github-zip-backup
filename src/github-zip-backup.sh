@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Saves zip file copies of private and public repos based on username, token parameters
+# This script saves zip file copies of private and public repos based on username, token parameters
 # GitHub API Documentation: 
 # https://docs.github.com/en/rest/repos/contents?apiVersion=2022-11-28#download-a-repository-archive-zip
 
