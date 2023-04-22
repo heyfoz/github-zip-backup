@@ -14,7 +14,7 @@ $repositories = Invoke-RestMethod -Uri $uri
 
 # Initialize int variables to keep track of the number of repositories downloaded
 $totalRepos = $repositories.Count
-$downloadRepos = 0
+$downloadedRepos = 0
 
 # Download zip files for each repository
 foreach ($repo in $repositories) {
@@ -26,12 +26,13 @@ foreach ($repo in $repositories) {
     # Check for/download master branch, if not found, do same for main branch
     try {
         Invoke-WebRequest -Uri $zipUri -OutFile $zipFilePath -ErrorAction Stop
-	  $downloadRepos++
+	  # Track number of downloaded repos
+	  $downloadedRepos++
     } catch {
         if ($_.Exception.Message -match '404') {
             $zipUri = $repo.archive_url -replace '{archive_format}{/ref}', 'zipball/main'
             Invoke-WebRequest -Uri $zipUri -OutFile $zipFilePath -ErrorAction Stop
-		$downloadRepos++
+		$downloadedRepos++
         } 
 	# Otherwise, display download error message
 	else {
@@ -39,5 +40,5 @@ foreach ($repo in $repositories) {
         }
     }
 }
-# Display the number of repositories downloaded
+# Display the number of downloaded repos
 Write-Host "$downloadRepos / $totalRepos repositories downloaded."
