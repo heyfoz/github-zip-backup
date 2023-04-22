@@ -19,17 +19,17 @@ $downloadRepos = 0
 foreach ($repo in $repositories) {
     $name = $repo.name
     $zipUri = $repo.archive_url -replace '{archive_format}{/ref}', 'zipball/master'
-    $zipFile = "$name.zip"
+    $zipFilePath = "C:\path\to\directory\$($repo.name).zip"
     Write-Host "Downloading $name"
 
     # check for master branch, if not found, check for main branch
     try {
-        Invoke-WebRequest -Uri $zipUri -OutFile $zipFile -ErrorAction Stop
+        Invoke-WebRequest -Uri $zipUri -OutFile $zipFilePath -ErrorAction Stop
 	  $downloadRepos++
     } catch {
         if ($_.Exception.Message -match '404') {
             $zipUri = $repo.archive_url -replace '{archive_format}{/ref}', 'zipball/main'
-            Invoke-WebRequest -Uri $zipUri -OutFile $zipFile -ErrorAction Stop
+            Invoke-WebRequest -Uri $zipUri -OutFile $zipFilePath -ErrorAction Stop
 		$downloadRepos++
         } else {
             Write-Warning "Error downloading $($name): $($_.Exception.Message)"
