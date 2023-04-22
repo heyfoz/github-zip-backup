@@ -5,41 +5,48 @@
 # https://docs.github.com/en/rest/repos/contents?apiVersion=2022-11-28#download-a-repository-archive-zip
 
 # Example using access token to copy both public and private repos
-$username = "insertUsername"
-$accessToken = "insertAccessToken"
+$token = "insertGitHubAccessToken"
 
-# Set the authorization header
+# Set headers with token to access private repos
 $headers = @{
-    "Authorization" = "Bearer $accessToken"
+    Authorization = "Bearer $token"
+    Accept = "application/vnd.github.v3+json"
 }
 
 # Get the repositories for the user
-$uri = "https://api.github.com/users/$username/repos?per_page=1000"
+$uri = "https://api.github.com/user/repos?per_page=1000"
 $repositories = Invoke-RestMethod -Uri $uri -Headers $headers
 
-# Initialize int variables to keep track of the number of repositories downloaded
 $totalRepos = $repositories.Count
-$reposDownloaded = 0
+$downloadCount = 0
 
 # Download zip files for each repository
 foreach ($repo in $repositories) {
     $name = $repo.name
-    $zipUri = $repo.archive_url -replace '{archive_format}{/ref}', 'zipball/master'
-    $zipFile = "$name.zip"
-    Write-Host "Downloading $name"
+    $zipUri = $repo.archive_url -replace '{archive_format}', 'zipball' -replace '{/ref}', "/$branchName"
+    $zipFilePath = "C:\path\to\directory\$($repo.name).zip"
+    Write-Host "Downloading $($name)"
 
-    # Check for/download master default branch, if not found, do same for main default branch
+    # Download zip file, handling 404 errors
     try {
-        Invoke-WebRequest -Uri $zipUri -OutFile $zipFile -Headers $headers -ErrorAction Stop
+          try {
+            if (-not $zipUri) {
+                throw "The archive URL is null or empty for repository $($repo.name)."
+            }
+          Invoke-WebRequest -Uri $zipUri -Headers $headers -OutFile $zipFilePath
+          $downloadCount++
+          } catch {
+        Write-Warning "Error downloading $($repo.name): $($_.Exception.Message)"
+    }
+  
     } catch {
-        if ($_.Exception.Message -match '404') {
-            $zipUri = $repo.archive_url -replace '{archive_format}{/ref}', 'zipball/main'
-            Invoke-WebRequest -Uri $zipUri -OutFile $zipFile -Headers $headers -ErrorAction Stop
-        } else {
+        if ($_.Exception.Response.StatusCode.Value__ -eq 404) {
             Write-Warning "Error downloading $($name): $($_.Exception.Message)"
+        } else {
+            throw $_.Exception
         }
     }
 }
 
-# Display the number of repositories downloaded
-Write-Host "$reposDownloaded out of $totalRepos repositories downloaded."
+# Output total number of repositories downloaded
+Write-Host "Total number of repositories downloaded: $($downloadCount)/$($totalRepos)"
