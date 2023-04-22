@@ -27,22 +27,22 @@ $downloadCount = 0
 # Download zip files for each repository
 foreach ($repo in $repositories) {
     $name = $repo.name
+    # Builds zip uri with archive url, replacing the archive format with zipball and using branch name as reference
     $zipUri = $repo.archive_url -replace '{archive_format}', 'zipball' -replace '{/ref}', "/$branchName"
     $zipFilePath = "C:\path\to\directory\$($name).zip"
     Write-Host "Downloading $($name)"
 
-    # Download zip file, handling 404 errors
+    # Download zip file, handling 404/download errors
     try {
-          try {
+        try {
             if (-not $zipUri) {
                 throw "The archive URL is null or empty for repository $($repo.name)."
             }
-          Invoke-WebRequest -Uri $zipUri -Headers $headers -OutFile $zipFilePath
-          $downloadCount++
-          } catch {
-        Write-Warning "Error downloading $($repo.name): $($_.Exception.Message)"
-    }
-  
+            Invoke-WebRequest -Uri $zipUri -Headers $headers -OutFile $zipFilePath
+            $downloadCount++
+        } catch {
+            Write-Warning "Error downloading $($repo.name): $($_.Exception.Message)"
+        }
     } catch {
         if ($_.Exception.Response.StatusCode.Value__ -eq 404) {
             Write-Warning "Error downloading $($name): $($_.Exception.Message)"
@@ -50,7 +50,6 @@ foreach ($repo in $repositories) {
             throw $_.Exception
         }
     }
-}
 
 # Output total number of repositories downloaded
 Write-Host "Total number of repositories downloaded: $($downloadCount)/$($totalRepos)"
