@@ -35,7 +35,5 @@ foreach ($repo in $repositories) {
         }
     }
 }
-
-
 # Display the number of repositories downloaded
 Write-Host "$downloadRepos / $totalRepos repositories downloaded."
