@@ -4,7 +4,7 @@
 # GitHub API Documentation: 
 # https://docs.github.com/en/rest/repos/contents?apiVersion=2022-11-28#download-a-repository-archive-zip
 
-$username = "insertGitHubUserNameHere"
+$username = "insertGitHubUsername"
 
 # Get the user's repositories via github api rest method
 $uri = "https://api.github.com/users/$username/repos?per_page=1000"
