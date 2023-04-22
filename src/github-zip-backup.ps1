@@ -17,7 +17,7 @@ foreach ($repo in $repositories) {
     $zipFile = "$name.zip"
     Write-Host "Downloading $name"
 
-    # check for master branch, if not found, check for main branch
+    # Check for/download master default branch, if not found, do same for main default branch
     try {
         Invoke-WebRequest -Uri $zipUri -OutFile $zipFile -ErrorAction Stop
     } catch {
