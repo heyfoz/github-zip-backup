@@ -23,7 +23,7 @@ foreach ($repo in $repositories) {
     $zipFilePath = "C:\Users\forre\OneDrive\Dev\$($name).zip"
     Write-Host "Downloading $name"
 
-    # check for master branch, if not found, check for main branch
+    # Check for/download master branch, if not found, do same for main branch
     try {
         Invoke-WebRequest -Uri $zipUri -OutFile $zipFilePath -ErrorAction Stop
 	  $downloadRepos++
@@ -32,7 +32,9 @@ foreach ($repo in $repositories) {
             $zipUri = $repo.archive_url -replace '{archive_format}{/ref}', 'zipball/main'
             Invoke-WebRequest -Uri $zipUri -OutFile $zipFilePath -ErrorAction Stop
 		$downloadRepos++
-        } else {
+        } 
+	# Otherwise, display download error message
+	else {
             Write-Warning "Error downloading $($name): $($_.Exception.Message)"
         }
     }
