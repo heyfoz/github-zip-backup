@@ -17,6 +17,10 @@ $headers = @{
 $uri = "https://api.github.com/users/$username/repos?per_page=1000"
 $repositories = Invoke-RestMethod -Uri $uri -Headers $headers
 
+# Initialize int variables to keep track of the number of repositories downloaded
+$totalRepos = $repositories.Count
+$reposDownloaded = 0
+
 # Download zip files for each repository
 foreach ($repo in $repositories) {
     $name = $repo.name
@@ -36,3 +40,6 @@ foreach ($repo in $repositories) {
         }
     }
 }
+
+# Display the number of repositories downloaded
+Write-Host "$reposDownloaded out of $totalRepos repositories downloaded."
