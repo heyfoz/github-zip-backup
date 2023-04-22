@@ -24,7 +24,7 @@ $downloadCount = 0
 foreach ($repo in $repositories) {
     $name = $repo.name
     $zipUri = $repo.archive_url -replace '{archive_format}', 'zipball' -replace '{/ref}', "/$branchName"
-    $zipFilePath = "C:\path\to\directory\$($repo.name).zip"
+    $zipFilePath = "C:\Users\forre\OneDrive\Dev\$($name).zip"
     Write-Host "Downloading $($name)"
 
     # Download zip file, handling 404 errors
