@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Replace the username with your GitHub username
-username="ffm5113"
+username="insertGitHubUsernameHere"
 
 # Get a list of all repositories for the user
 repositories=$(curl -s httpsapi.github.comusers$usernamereposper_page=1000  grep -o 'git@[^]')
