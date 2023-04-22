@@ -5,7 +5,7 @@
 # https://docs.github.com/en/rest/repos/contents?apiVersion=2022-11-28#download-a-repository-archive-zip
 
 # GitHub username used to retrieve public repos (access token required for private repos)
-$username = "ffm5113"
+$username = "insertGitHubUsername"
 
 # Get the repositories for the user
 $uri = "https://api.github.com/users/$username/repos?per_page=1000"
