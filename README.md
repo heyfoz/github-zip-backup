@@ -1,5 +1,5 @@
 # github-zip-backup
-The github-zip-backup repository contains bash and PowerShell script template options, which utilize GitHub's API to copy all of a user's public repos (via username) and private repos (via personal access token) to compressed archive (zip) files.
+The github-zip-backup repository contains bash and PowerShell script template options, which utilize the GitHub API to copy all of a user's public repos (via username) and private repos (via personal access token) to compressed archive (zip) files.
 
 <ul>
   <li><a href="https://github.com/ffm5113/github-zip-backup/blob/main/src/github-zip-backup.sh">Private/Public Repo Backup - bash</a></li>
